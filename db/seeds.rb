@@ -9,3 +9,4 @@
 
 User.create!(nickname: "Joel", email: "joel@ga.com", password:"password")
 User.create!(nickname: "Ben", email: "ben@ga.com", password:"password")
+Match.new_match!(1,2)
