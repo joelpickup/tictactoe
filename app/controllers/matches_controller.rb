@@ -18,6 +18,13 @@ class MatchesController < ApplicationController
 
   def index
     @matches = Match.playable_matches(current_user)
+    @matches.each { |match|
+    if current_user == match.player_o
+      match.other_player_id = match.player_x.id
+    else
+      match.other_player_id = match.player_o.id
+    end
+    }
   end
 
   def match_params

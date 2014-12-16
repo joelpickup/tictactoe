@@ -1,10 +1,5 @@
 <% @matches.each do |match| %>
 <%= match.id %>
-<% if match.player_x.id == current_user.id %>
-<%= match.player_o.nickname %>
-<% end %>
-<% if match.player_o.id == current_user.id %>
-<%= match.player_x.nickname %>
-<% end %>
+<%= User.find(match.other_player_id).nickname %>
 <%= link_to 'Show', match  %>
 <% end %>
