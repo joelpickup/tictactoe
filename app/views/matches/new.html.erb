@@ -1,0 +1,5 @@
+<%= form_for @match do |f| -%>
+<%= f.select :playing_as, ["X","O"]%>
+<%= f.collection_select :other_player_id, @users, :id, :nickname %> 
+<%= f.submit %>
+<% end -%>
