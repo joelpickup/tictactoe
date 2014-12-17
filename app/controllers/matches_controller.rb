@@ -23,9 +23,7 @@ class MatchesController < ApplicationController
   def add_move
     square = params[:square].to_i
     @match = Match.find(params[:id])
-    move = @match.moves.new(user: current_user, square: square, match_id: @match.id)
-    move.save
-    raise
+    move = @match.add_move(current_user.id,square)
     redirect_to @match
   end
 
