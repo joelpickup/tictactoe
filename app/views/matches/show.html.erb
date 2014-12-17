@@ -1,53 +1,61 @@
 <% if @squares_values[1].nil?  %>
-<%= link_to 'Play', add_move_match_path(square: 1), method: :put if @match.is_my_turn?(current_user)%>
+<%= link_to 'Play', add_move_match_path(square: 1), method: :put if @match.is_my_turn?(current_user) && !@match.is_there_a_winner?%>
 <% else %>
 <%=  @squares_values[1]%>
 <% end %>
 |
 <% if @squares_values[2].nil?  %>
-<%= link_to 'Play', add_move_match_path(square: 2), method: :put if @match.is_my_turn?(current_user)%>
+<%= link_to 'Play', add_move_match_path(square: 2), method: :put if @match.is_my_turn?(current_user) && !@match.is_there_a_winner?%>
 <% else %>
 <%=  @squares_values[2]%>
 <% end %>
 |
 <% if @squares_values[3].nil?  %>
-<%= link_to 'Play', add_move_match_path(square: 3), method: :put if @match.is_my_turn?(current_user)%>
+<%= link_to 'Play', add_move_match_path(square: 3), method: :put if @match.is_my_turn?(current_user) && !@match.is_there_a_winner?%>
 <% else %>
 <%=  @squares_values[3]%>
 <% end %>
 <br>
 <% if @squares_values[4].nil?  %>
-<%= link_to 'Play', add_move_match_path(square: 4), method: :put if @match.is_my_turn?(current_user) %>
+<%= link_to 'Play', add_move_match_path(square: 4), method: :put if @match.is_my_turn?(current_user) && !@match.is_there_a_winner?%>
 <% else %>
 <%=  @squares_values[4]%>
 <% end %>
 |
 <% if @squares_values[5].nil?  %>
-<%= link_to 'Play', add_move_match_path(square: 5), method: :put if @match.is_my_turn?(current_user) %>
+<%= link_to 'Play', add_move_match_path(square: 5), method: :put if @match.is_my_turn?(current_user) && !@match.is_there_a_winner?%>
 <% else %>
 <%=  @squares_values[5]%>
 <% end %>
 |
 <% if @squares_values[6].nil?  %>
-<%= link_to 'Play', add_move_match_path(square: 6), method: :put if @match.is_my_turn?(current_user) %>
+<%= link_to 'Play', add_move_match_path(square: 6), method: :put if @match.is_my_turn?(current_user) && !@match.is_there_a_winner?%>
 <% else %>
 <%=  @squares_values[6]%>
 <% end %>
 <br>
 <% if @squares_values[7].nil?  %>
-<%= link_to 'Play', add_move_match_path(square: 7), method: :put if @match.is_my_turn?(current_user) %>
+<%= link_to 'Play', add_move_match_path(square: 7), method: :put if @match.is_my_turn?(current_user) && !@match.is_there_a_winner?%>
 <% else %>
 <%=  @squares_values[7]%>
 <% end %>
 |
 <% if @squares_values[8].nil?  %>
-<%= link_to 'Play', add_move_match_path(square: 8), method: :put if @match.is_my_turn?(current_user)%>
+<%= link_to 'Play', add_move_match_path(square: 8), method: :put if @match.is_my_turn?(current_user)&& !@match.is_there_a_winner?%>
 <% else %>
 <%=  @squares_values[8]%>
 <% end %>
 |
 <% if @squares_values[9].nil?  %>
-<%= link_to 'Play', add_move_match_path(square: 9), method: :put if @match.is_my_turn?(current_user)%>
+<%= link_to 'Play', add_move_match_path(square: 9), method: :put if @match.is_my_turn?(current_user)&& !@match.is_there_a_winner?%>
 <% else %>
 <%=  @squares_values[9]%>
+<% end %>
+<br>
+<% if @match.winner_id? %>
+<% if @match.winner_id == current_user.id  %>
+  You win!
+<% else %>
+<%= User.find(@match.winner_id).nickname%> wins!
+<% end %>
 <% end %>
