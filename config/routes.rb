@@ -8,7 +8,11 @@ Rails.application.routes.draw do
 
   root to: "home#index"
 
-  
+  resources :matches do
+    member do
+      put 'add_move/:square', to: 'matches#add_move', as: 'add_move'
+    end
+  end  
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
 
