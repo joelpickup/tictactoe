@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   resources :matches
   resources :moves
 
+  get '/leaderboard', to: 'matches#leaderboard'
+
 
   root to: "home#index"
 

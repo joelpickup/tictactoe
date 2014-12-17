@@ -1,0 +1,13 @@
+<table>
+  <tr>
+    <th>Player</th>
+    <th>Wins</th>
+  </tr>
+<% @users.sort_by{|u| u.wincount }.reverse.each do |u| %>
+<tr>
+  <td><%= u.nickname %></td>
+  <td><%= u.wincount %></td>
+</tr>
+  
+<% end %>
+</table>

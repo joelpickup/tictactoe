@@ -30,6 +30,11 @@ class MatchesController < ApplicationController
     redirect_to @match
   end
 
+  def leaderboard
+    @users = User.all - [User.find(3)]
+  end
+
+
   def index
     @matches = Match.playable_matches(current_user)
     @matches.each { |match|
