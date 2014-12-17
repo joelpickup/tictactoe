@@ -99,7 +99,7 @@ class Match < ActiveRecord::Base
 
   def must_not_already_have_match
     m = Match.where(player_o_id: challenger_id, player_x_id: other_player_id, winner_id:nil) 
-    n = Match.where(player_x_id: other_player_id, player_o_id: challenger_id, winner_id:nil)
+    n = Match.where(player_o_id: other_player_id, player_x_id: challenger_id, winner_id:nil)
     unless m.empty? && n.empty?
       errors.add(:challenger_id, "you already have a match in progress with this person!")
     end
