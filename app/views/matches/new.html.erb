@@ -1,3 +1,14 @@
+<% if @match.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@match.errors.count, "error") %> prohibited this match from being created:</h2>
+
+    <ul>
+    <% @match.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
 <%= form_for @match do |f| -%>
 <%= f.select :playing_as, ["X","O"]%>
 <%= f.collection_select :other_player_id, @users, :id, :nickname %> 

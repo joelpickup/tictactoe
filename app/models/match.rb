@@ -4,6 +4,7 @@ class Match < ActiveRecord::Base
   belongs_to :player_o, class_name: 'User'
   validates :player_x_id, presence: :true
   validates :player_o_id, presence: :true
+  validate :must_not_already_have_match, on: :create
 
   WINNING_COMBOS = [[1,2,3],[4,5,6],[7,8,9],[1,4,7],[2,5,8],[3,6,9],[1,5,9],[3,5,7]]
 
@@ -94,5 +95,13 @@ class Match < ActiveRecord::Base
     add_move(player_x_id,square)
     computer_square = possible_moves.sample
     add_move(player_o_id,computer_square)
+  end
+
+  def must_not_already_have_match
+    m = Match.where(player_o_id: challenger_id, player_x_id: other_player_id, winner_id:nil) 
+    n = Match.where(player_x_id: other_player_id, player_o_id: challenger_id, winner_id:nil)
+    unless m.empty? && n.empty?
+      errors.add(:challenger_id, "you already have a match in progress with this person!")
+    end
   end
 end

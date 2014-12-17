@@ -8,8 +8,11 @@ class MatchesController < ApplicationController
   def create
     @users = User.all - [current_user, User.find(3)]
     @match = Match.challenge(match_params.merge({challenger_id: current_user.id}))
-    @match.save
-    redirect_to(@match)
+   if @match.save
+      redirect_to(@match)
+    else
+      render :new
+    end
   end
 
   def show
