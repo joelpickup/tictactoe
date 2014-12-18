@@ -10,6 +10,12 @@ class Move < ActiveRecord::Base
   validate :must_be_users_turn, on: :create
   validate :square_must_be_free, on: :create
 
+  after_create :check_status
+
+  def check_status
+    match.check_status
+  end
+
   def no_winner
     if match.winner_id?
       errors.add(:match, "match already won.")

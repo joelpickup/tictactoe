@@ -1,5 +1,35 @@
+<% if @matches.count + @unplayable_matches.count == 0 %>
+<h1>You have no matches, challenge someone!</h1>
+<% end %>
+
+<% if @matches.count > 0 %>
+<h1>Your Turn</h1>
+<table>
+  <tr>
+    <th><h2>VS</h2></th>
+    <th><h2></h2></th>
+  </tr>
 <% @matches.each do |match| %>
-<%= match.id %>
-<%= User.find(match.other_player_id).nickname %>
-<%= link_to 'Show', match  %>
+<tr>
+  <td><%= @other_player.nickname %></td>
+  <td><%= link_to 'Show', match  %></td>
+</tr>
+<% end %>
+</table>
+<% end %>
+
+<% if @unplayable_matches.count > 0 %>
+<h1>Their turn</h1>
+<table>
+    <tr>
+      <th><h2>VS</h2></th>
+      <th><h2></h2></th>
+    </tr>
+  <% @unplayable_matches.each do |match| %>
+  <tr>
+    <td><%= @other_player.nickname %></td>
+    <td><%= link_to 'Show', match  %></td>
+  </tr>
+  <% end %>
+</table>
 <% end %>

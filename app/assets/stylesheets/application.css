@@ -30,6 +30,12 @@
   width: 150px;
   height: 150px;
  }
- .square:hover {
-  content: url('/assets/whitecross.png');
+ .cross:hover {
+  content: url('/assets/blackcross.png');
+ }
+ .circle:hover {
+  content: url('/assets/blackcircle.png');
+ }
+ .container {
+  text-align: center;
  }

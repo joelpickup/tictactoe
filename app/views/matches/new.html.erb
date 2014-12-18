@@ -1,21 +1,35 @@
 <% if @match.errors.any? %>
-  <div id="error_explanation">
-    <h2><%= pluralize(@match.errors.count, "error") %> prohibited this match from being created:</h2>
-    <ul>
+<div id="error_explanation">
+  <h2><%= pluralize(@match.errors.count, "error") %> prohibited this match from being created:</h2>
+  <ul>
     <% @match.errors.full_messages.each do |message| %>
-      <li><%= message %></li>
+    <li><%= message %></li>
     <% end %>
-    </ul>
-  </div>
+  </ul>
+</div>
 <% end %>
+<div class="container">
+  <h1>Challenge another player !</h1>
+<br>
+<br>
+  <%= form_for @match do |f| -%>
+  <%= f.label :playing_as%>
+  <%= f.select :playing_as, ["X","O"]%>
+  <%= f.label :other_player_id, 'Against'%>
+  <%= f.collection_select :other_player_id, @users, :id, :nickname %> 
+  <%= f.submit %>
+  <% end -%>
+  <br>
 
-<%= form_for @match do |f| -%>
-<%= f.select :playing_as, ["X","O"]%>
-<%= f.collection_select :other_player_id, @users, :id, :nickname %> 
-<%= f.submit %>
-<% end -%>
+  <h2>-- OR -- </h2>
+  <br>
 
-<%= form_for @match,:url => '/matches/computer' do |f| -%>
-<%= f.select :playing_as, ["X","O"]%>
-<%= f.submit %>
-<% end -%>
+  <h1>Play VS the computer !</h1>
+  <br>
+  <br>
+  <%= form_for @match,:url => '/matches/computer' do |f| -%>
+  <%= f.label :playing_as%>
+  <%= f.select :playing_as, ["X","O"]%>
+  <%= f.submit %>
+  <% end -%>
+</div>

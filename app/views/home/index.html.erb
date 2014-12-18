@@ -1,1 +1,8 @@
-<h1>Tic Tac Toe</h1>
+<% if !current_user %>
+  <h1>Welcome to Tic Tac Toe !</h1>
+  <h2>Please sign in or register to start playing!</h2>
+<% end %>
+<%= image_tag("blackcross.png", class: "square") %>
+<%= image_tag("blackcircle.png", class: "square") %>
+<%= image_tag("blackcross.png", class: "square") %>
+<%= image_tag("blackcircle.png", class: "square") %>
