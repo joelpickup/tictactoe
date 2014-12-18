@@ -1,61 +1,160 @@
-<% if @squares_values[1].nil?  %>
-<%= link_to 'Play', add_move_match_path(square: 1), method: :put if @match.is_my_turn?(current_user) && !@match.is_there_a_winner?%>
-<% else %>
-<%=  @squares_values[1]%>
-<% end %>
-|
-<% if @squares_values[2].nil?  %>
-<%= link_to 'Play', add_move_match_path(square: 2), method: :put if @match.is_my_turn?(current_user) && !@match.is_there_a_winner?%>
-<% else %>
-<%=  @squares_values[2]%>
-<% end %>
-|
-<% if @squares_values[3].nil?  %>
-<%= link_to 'Play', add_move_match_path(square: 3), method: :put if @match.is_my_turn?(current_user) && !@match.is_there_a_winner?%>
-<% else %>
-<%=  @squares_values[3]%>
-<% end %>
-<br>
-<% if @squares_values[4].nil?  %>
-<%= link_to 'Play', add_move_match_path(square: 4), method: :put if @match.is_my_turn?(current_user) && !@match.is_there_a_winner?%>
-<% else %>
-<%=  @squares_values[4]%>
-<% end %>
-|
-<% if @squares_values[5].nil?  %>
-<%= link_to 'Play', add_move_match_path(square: 5), method: :put if @match.is_my_turn?(current_user) && !@match.is_there_a_winner?%>
-<% else %>
-<%=  @squares_values[5]%>
-<% end %>
-|
-<% if @squares_values[6].nil?  %>
-<%= link_to 'Play', add_move_match_path(square: 6), method: :put if @match.is_my_turn?(current_user) && !@match.is_there_a_winner?%>
-<% else %>
-<%=  @squares_values[6]%>
-<% end %>
-<br>
-<% if @squares_values[7].nil?  %>
-<%= link_to 'Play', add_move_match_path(square: 7), method: :put if @match.is_my_turn?(current_user) && !@match.is_there_a_winner?%>
-<% else %>
-<%=  @squares_values[7]%>
-<% end %>
-|
-<% if @squares_values[8].nil?  %>
-<%= link_to 'Play', add_move_match_path(square: 8), method: :put if @match.is_my_turn?(current_user)&& !@match.is_there_a_winner?%>
-<% else %>
-<%=  @squares_values[8]%>
-<% end %>
-|
-<% if @squares_values[9].nil?  %>
-<%= link_to 'Play', add_move_match_path(square: 9), method: :put if @match.is_my_turn?(current_user)&& !@match.is_there_a_winner?%>
-<% else %>
-<%=  @squares_values[9]%>
-<% end %>
-<br>
-<% if @match.winner_id? %>
-<% if @match.winner_id == current_user.id  %>
-  You win!
-<% else %>
-<%= User.find(@match.winner_id).nickname%> wins!
-<% end %>
-<% end %>
+<h2>VS. <%= @other_player_name%></h2>
+    <div id="grid">
+      <div class="grid-element">
+      <% if @squares_values[1].nil?  %>
+        <% if @playing_as == "X" %>
+          <%= link_to image_tag("whitecross.png", :alt => "Play", :class => "square"), add_move_match_path(square: 1), method: :put if @match.is_my_turn?(current_user) && !@match.is_there_a_winner? %>
+        <% else %>
+        <%= link_to image_tag("whitecircle.png", :alt => "Play", :class => "square"), add_move_match_path(square: 1), method: :put if @match.is_my_turn?(current_user) && !@match.is_there_a_winner? %>
+        <% end %>
+      <% else %>
+        <%  if @squares_values[1] == "X"%>
+        <%= image_tag("blackcross.png", class: "square") %>
+        <% elsif @squares_values[1] == "O"%>
+        <%= image_tag("whitecross.png", class: "square") %>
+      <% end %>
+      <% end %>
+        </div>
+
+        <div class="grid-element">
+         <% if @squares_values[2].nil?  %>
+           <% if @playing_as == "X" %>
+             <%= link_to image_tag("whitecross.png", :alt => "Play", :class => "square"), add_move_match_path(square: 1), method: :put if @match.is_my_turn?(current_user) && !@match.is_there_a_winner? %>
+           <% else %>
+           <%= link_to image_tag("whitecircle.png", :alt => "Play", :class => "square"), add_move_match_path(square: 1), method: :put if @match.is_my_turn?(current_user) && !@match.is_there_a_winner? %>
+           <% end %>
+         <% else %>
+           <%  if @squares_values[2] == "X"%>
+           <%= image_tag("blackcross.png", class: "square") %>
+           <% elsif @squares_values[2] == "O"%>
+           <%= image_tag("whitecross.png", class: "square") %>
+         <% end %>
+         <% end %>
+        </div>
+
+        <div class="grid-element">
+            <% if @squares_values[3].nil?  %>
+              <% if @playing_as == "X" %>
+                <%= link_to image_tag("whitecross.png", :alt => "Play", :class => "square"), add_move_match_path(square: 1), method: :put if @match.is_my_turn?(current_user) && !@match.is_there_a_winner? %>
+              <% else %>
+              <%= link_to image_tag("whitecircle.png", :alt => "Play", :class => "square"), add_move_match_path(square: 1), method: :put if @match.is_my_turn?(current_user) && !@match.is_there_a_winner? %>
+              <% end %>
+            <% else %>
+              <% if @squares_values[3] == "X"%>
+              <%= image_tag("blackcross.png", class: "square") %>
+              <% elsif @squares_values[3] == "O"%>
+              <%= image_tag("whitecross.png", class: "square") %>
+            <% end %>
+            <% end %>
+        </div>
+
+
+        <div class="grid-element">
+          <% if @squares_values[4].nil?  %>
+            <% if @playing_as == "X" %>
+              <%= link_to image_tag("whitecross.png", :alt => "Play", :class => "square"), add_move_match_path(square: 1), method: :put if @match.is_my_turn?(current_user) && !@match.is_there_a_winner? %>
+            <% else %>
+            <%= link_to image_tag("whitecircle.png", :alt => "Play", :class => "square"), add_move_match_path(square: 1), method: :put if @match.is_my_turn?(current_user) && !@match.is_there_a_winner? %>
+            <% end %>
+          <% else %>
+            <%  if @squares_values[4] == "X"%>
+            <%= image_tag("blackcross.png", class: "square") %>
+            <% elsif @squares_values[4] == "O"%>
+            <%= image_tag("whitecross.png", class: "square") %>
+          <% end %>
+          <% end %>
+        </div>
+
+        <div class="grid-element">
+          <% if @squares_values[5].nil?  %>
+            <% if @playing_as == "X" %>
+              <%= link_to image_tag("whitecross.png", :alt => "Play", :class => "square"), add_move_match_path(square: 1), method: :put if @match.is_my_turn?(current_user) && !@match.is_there_a_winner? %>
+            <% else %>
+            <%= link_to image_tag("whitecircle.png", :alt => "Play", :class => "square"), add_move_match_path(square: 1), method: :put if @match.is_my_turn?(current_user) && !@match.is_there_a_winner? %>
+            <% end %>
+          <% else %>
+            <%  if @squares_values[5] == "X"%>
+            <%= image_tag("blackcross.png", class: "square") %>
+            <% elsif @squares_values[5] == "O"%>
+            <%= image_tag("whitecross.png", class: "square") %>
+          <% end %>
+          <% end %>
+        </div>
+
+        <div class="grid-element">
+          <% if @squares_values[6].nil?  %>
+            <% if @playing_as == "X" %>
+              <%= link_to image_tag("whitecross.png", :alt => "Play", :class => "square"), add_move_match_path(square: 1), method: :put if @match.is_my_turn?(current_user) && !@match.is_there_a_winner? %>
+            <% else %>
+            <%= link_to image_tag("whitecircle.png", :alt => "Play", :class => "square"), add_move_match_path(square: 1), method: :put if @match.is_my_turn?(current_user) && !@match.is_there_a_winner? %>
+            <% end %>
+          <% else %>
+            <% if @squares_values[6] == "X"%>
+            <%= image_tag("blackcross.png", class: "square") %>
+            <% elsif @squares_values[6] == "O"%>
+            <%= image_tag("whitecross.png", class: "square") %>
+          <% end %>
+          <% end %>
+        </div>
+
+
+        <div class="grid-element">
+          <% if @squares_values[7].nil?  %>
+            <% if @playing_as == "X" %>
+              <%= link_to image_tag("whitecross.png", :alt => "Play", :class => "square"), add_move_match_path(square: 1), method: :put if @match.is_my_turn?(current_user) && !@match.is_there_a_winner? %>
+            <% else %>
+            <%= link_to image_tag("whitecircle.png", :alt => "Play", :class => "square"), add_move_match_path(square: 1), method: :put if @match.is_my_turn?(current_user) && !@match.is_there_a_winner? %>
+            <% end %>
+          <% else %>
+            <%  if @squares_values[7] == "X"%>
+            <%= image_tag("blackcross.png", class: "square") %>
+            <% elsif @squares_values[7] == "O"%>
+            <%= image_tag("whitecross.png", class: "square") %>
+          <% end %>
+          <% end %>
+        </div>
+
+        <div class="grid-element">
+          <% if @squares_values[8].nil?  %>
+            <% if @playing_as == "X" %>
+              <%= link_to image_tag("whitecross.png", :alt => "Play", :class => "square"), add_move_match_path(square: 1), method: :put if @match.is_my_turn?(current_user) && !@match.is_there_a_winner? %>
+            <% else %>
+            <%= link_to image_tag("whitecircle.png", :alt => "Play", :class => "square"), add_move_match_path(square: 1), method: :put if @match.is_my_turn?(current_user) && !@match.is_there_a_winner? %>
+            <% end %>
+          <% else %>
+            <%  if @squares_values[8] == "X"%>
+            <%= image_tag("blackcross.png", class: "square") %>
+            <% elsif @squares_values[8] == "O"%>
+            <%= image_tag("whitecross.png", class: "square") %>
+          <% end %>
+          <% end %>
+        </div>
+
+        <div class="grid-element">
+          <% if @squares_values[9].nil?  %>
+            <% if @playing_as == "X" %>
+              <%= link_to image_tag("whitecross.png", :alt => "Play", :class => "square"), add_move_match_path(square: 1), method: :put if @match.is_my_turn?(current_user) && !@match.is_there_a_winner? %>
+            <% else %>
+            <%= link_to image_tag("whitecircle.png", :alt => "Play", :class => "square"), add_move_match_path(square: 1), method: :put if @match.is_my_turn?(current_user) && !@match.is_there_a_winner? %>
+            <% end %>
+          <% else %>
+            <%  if @squares_values[9] == "X"%>
+            <%= image_tag("blackcross.png", class: "square") %>
+            <% elsif @squares_values[9] == "O"%>
+            <%= image_tag("whitecross.png", class: "square") %>
+          <% end %>
+          <% end %>
+        </div>
+
+    </div>
+
+    <div class="clear"></div>
+
+    
+    <% if @match.winner_id? %>
+      <% if @match.winner_id == current_user.id  %>
+        You win!
+      <% else %>
+      <%= User.find(@match.winner_id).nickname%> wins!
+      <% end %>
+    <% end %>

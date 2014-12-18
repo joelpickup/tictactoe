@@ -15,12 +15,31 @@ class MatchesController < ApplicationController
     end
   end
 
+  def computer
+    @match = Match.new_match_vs_computer(match_params.merge({challenger_id: current_user.id}))
+    if @match.save
+      redirect_to(@match)
+    else
+      render :new
+    end
+  end
+
   def show
     @match = Match.find(params[:id])
     moves = @match.moves
     squares = moves.map {|move| move.square }
     values = moves.map {|move| move.value}
     @squares_values = Hash[squares.zip values]
+    if @match.player_x_id == current_user.id
+      @other_player_name = User.find(@match.player_o_id).nickname
+    else
+      @other_player_name = User.find(@match.player_x_id).nickname
+    end
+    if @match.player_x_id == current_user.id
+      @playing_as = "X"
+    else
+      @playing_as = "O"
+    end
   end
 
   def add_move

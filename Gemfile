@@ -29,6 +29,7 @@ gem 'spring',        group: :development
 gem 'devise'
 gem 'cancancan'
 gem 'pg'
+gem "twitter-bootstrap-rails"
 
 group :development, :test do
   gem 'pry-rails'

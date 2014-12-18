@@ -34,6 +34,15 @@ class Match < ActiveRecord::Base
       self.winner_id = self.winner
       save
     end
+    if draw?
+      self.winner_id = 0
+      save
+    end
+    if !is_there_a_winner? && !draw?
+      computer_square = possible_moves.sample
+      value = x_or_o(3)
+      moves.create(user_id: 3, square: computer_square, value: value)
+    end
   end
 
   def is_there_a_winner?
@@ -75,6 +84,7 @@ class Match < ActiveRecord::Base
     @playable_matches = Match.where(player_x: current_user) + Match.where(player_o: current_user)
     @playable_matches.delete_if {|match| match.is_there_a_winner?}
     @playable_matches.delete_if {|match| !match.is_my_turn?(current_user)}
+    @playable_matches.delete_if {|match| match.draw?}
   end
 
   def is_my_turn?(current_user)
@@ -83,18 +93,25 @@ class Match < ActiveRecord::Base
 
   def possible_moves
     all_squares = [1,2,3,4,5,6,7,8,9]
-    occupied_squares = saved_moves.map {|move| move.square }
+    occupied_squares = saved_moves.map {|m| m.square }
     all_squares - occupied_squares
   end
 
-  def self.new_match_vs_computer(user_id)
-    Match.create(player_x_id: user_id, player_o_id: 3)
+  def self.new_match_vs_computer(params)
+    match = new(params)
+    case params.fetch(:playing_as).to_s.downcase
+    when 'o'
+      match.player_o_id = params.fetch(:challenger_id)
+      match.player_x_id = 3
+    else
+      match.player_x_id = params.fetch(:challenger_id)
+      match.player_o_id = 3
+    end
+    match
   end
 
-  def add_move_vs_computer(square)
-    add_move(player_x_id,square)
-    computer_square = possible_moves.sample
-    add_move(player_o_id,computer_square)
+  def draw?
+    winner_id == 0 
   end
 
   def must_not_already_have_match
@@ -105,3 +122,5 @@ class Match < ActiveRecord::Base
     end
   end
 end
+
+

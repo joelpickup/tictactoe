@@ -15,6 +15,16 @@ Rails.application.routes.draw do
       put 'add_move/:square', to: 'matches#add_move', as: 'add_move'
     end
   end  
+
+  post '/matches/computer', to: 'matches#computer'
+
+
+
+  # resources :matches do
+  #   member do
+  #     put 'computer', to: 'matches#computer', as: 'computer'
+  #   end
+  # end  
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
 

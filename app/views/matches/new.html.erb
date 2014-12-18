@@ -8,8 +8,14 @@
     </ul>
   </div>
 <% end %>
+
 <%= form_for @match do |f| -%>
 <%= f.select :playing_as, ["X","O"]%>
 <%= f.collection_select :other_player_id, @users, :id, :nickname %> 
+<%= f.submit %>
+<% end -%>
+
+<%= form_for @match,:url => '/matches/computer' do |f| -%>
+<%= f.select :playing_as, ["X","O"]%>
 <%= f.submit %>
 <% end -%>

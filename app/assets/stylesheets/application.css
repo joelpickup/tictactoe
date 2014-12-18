@@ -13,3 +13,23 @@
  *= require_tree .
  *= require_self
  */
+ .clear{
+     clear:both;
+ }
+
+ #grid{
+     width: 600px;
+ }
+
+ .grid-element{
+     width:200px;
+     float:left;
+     border: 2px solid black;
+ }
+ .square {
+  width: 150px;
+  height: 150px;
+ }
+ .square:hover {
+  content: url('/assets/whitecross.png');
+ }
