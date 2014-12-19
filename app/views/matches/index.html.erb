@@ -11,7 +11,11 @@
   </tr>
 <% @matches.each do |match| %>
 <tr>
-  <td><%= @other_player.nickname %></td>
+  <% if match.player_x_id == current_user.id %>
+    <td><%= User.find(match.player_o_id).nickname %></td>
+    <% else %>
+    <td><%= User.find(match.player_x_id).nickname %></td>
+  <% end %>
   <td><%= link_to 'Show', match  %></td>
 </tr>
 <% end %>
@@ -27,7 +31,11 @@
     </tr>
   <% @unplayable_matches.each do |match| %>
   <tr>
-    <td><%= @other_player.nickname %></td>
+    <% if match.player_x_id == current_user.id %>
+      <td><%= User.find(match.player_o_id).nickname %></td>
+      <% else %>
+      <td><%= User.find(match.player_x_id).nickname %></td>
+    <% end %>
     <td><%= link_to 'Show', match  %></td>
   </tr>
   <% end %>

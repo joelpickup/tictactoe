@@ -10,4 +10,5 @@ class MovesController < ApplicationController
   def move_params
     params.require(:move).permit(:square, :match_id, :user_id)
   end
+  
 end

@@ -17,5 +17,21 @@ def wincount
   wins.count
 end
 
+def draws
+  matches_as_x.where(winner_id: 0) + matches_as_o.where(winner_id: 0)
+end
+
+def drawcount
+  draws.count
+end
+
+def losses
+  m = matches_as_x.select{|match| match if match.winner_id} + matches_as_o.select{|match| match if match.winner_id}
+  m.select{|m| m if m.winner_id != 0 && m.winner_id!= id}
+end
+
+def losscount
+  losses.count
+end
 
 end

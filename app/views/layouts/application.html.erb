@@ -72,8 +72,8 @@
             <ul class="nav nav-list">
               <% if current_user %>
               <li>Wins: <%= current_user.wincount %></li>
-              <li></li>
-              <li></li>
+              <li>Draws: <%= current_user.drawcount %></li>
+              <li>Losses: <%= current_user.losscount %></li>
               <li><%= link_to "Log out", destroy_user_session_path, method: :delete %></li>
               <% else %>
               <li><%= link_to "Sign In", new_user_session_path %></li>

@@ -50,7 +50,8 @@ class MatchesController < ApplicationController
     square = params[:square].to_i
     @match = Match.find(params[:id])
     move = @match.add_move(current_user.id,square)
-    @match.computer_move if @match.winner_id.nil?
+    @match.computer_move if @match.winner_id.nil? && @match.computer_playing?
+    @match.check_status
     redirect_to @match
   end
 
@@ -58,25 +59,9 @@ class MatchesController < ApplicationController
     @users = User.where(role: "user")
   end
 
-
   def index
     @matches = Match.playable_matches(current_user)
     @unplayable_matches = Match.in_progress_not_my_turn(current_user)
-    @matches.each { |match|
-      if current_user == match.player_o
-        @other_player = User.find(match.player_x.id)
-      else
-        @other_player = User.find(match.player_o.id)
-      end
-    }
-    @unplayable_matches.each { |match|
-      if current_user == match.player_o
-        @other_player = User.find(match.player_x.id)
-      else
-        @other_player = User.find(match.player_o.id)
-      end
-    }
-
   end
 
   def match_params

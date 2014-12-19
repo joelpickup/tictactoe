@@ -6,9 +6,18 @@ class Match < ActiveRecord::Base
   validates :player_o_id, presence: :true
   validate :must_not_already_have_match, on: :create
 
-  WINNING_COMBOS = [[1,2,3],[4,5,6],[7,8,9],[1,4,7],[2,5,8],[3,6,9],[1,5,9],[3,5,7]]
+  WINNING_COMBOS  = [[1,2,3],[4,5,6],[7,8,9],[1,4,7],[2,5,8],[3,6,9],[1,5,9],[3,5,7]]
+  ALL_SQUARES     = [1,2,3,4,5,6,7,8,9]
 
   attr_accessor :challenger_id, :other_player_id, :playing_as
+
+  def must_not_already_have_match
+    m = Match.where(player_o_id: challenger_id, player_x_id: other_player_id, winner_id:nil) 
+    n = Match.where(player_o_id: other_player_id, player_x_id: challenger_id, winner_id:nil)
+    unless m.empty? && n.empty?
+      errors.add(:challenger_id, "you already have a match in progress with this person!")
+    end
+  end
 
   def self.challenge(params)
     match = new(params)
@@ -23,21 +32,18 @@ class Match < ActiveRecord::Base
     match
   end
 
-  def self.new_match(player_x_id,player_o_id)
-    Match.create(player_x_id: player_x_id, player_o_id: player_o_id)
-  end
-
   def check_status
     if has_player_won?(player_x_id)
-      self.winner_id = player_x_id
-      self.save
+      self.winner_id = player_x_id and self.save
     elsif has_player_won?(player_o_id)
-      self.winner_id = player_o_id
-      self.save
+      self.winner_id = player_o_id and self.save
     elsif is_draw?
-      self.winner_id = 0
-      self.save
+      self.winner_id = 0 and self.save
     end
+  end
+
+  def computer_playing?
+    player_x.role == "computer" || player_o.role == "computer"
   end
 
   def computer_move
@@ -53,14 +59,8 @@ class Match < ActiveRecord::Base
   end
 
   def has_player_won?(player_id)
-    player_moves = moves.where(user_id: player_id)
-    player_squares = player_moves.try(:map) {|move| move.square }
-    win_test = WINNING_COMBOS.map {|combo| (combo - player_squares).empty?}
-    if win_test.include?(true)
-      return true 
-    else
-      return false
-    end
+    player_squares = moves.map { |move| move.square if move.user_id == player_id }.compact
+    WINNING_COMBOS.any? { |combo| (combo - player_squares).empty? }
   end
 
   def winner
@@ -79,26 +79,12 @@ class Match < ActiveRecord::Base
     (user_id == player_o_id ? "O" : "X")
   end
 
-  def self.playable_matches(current_user)
-    @playable_matches = Match.where("(player_x_id = ? OR player_o_id = ?) AND winner_id is NULL", current_user.id, current_user.id)
-    @playable_matches = @playable_matches.select {|match| !match.drawn?}
-    @playable_matches = @playable_matches.select {|match| match.is_my_turn?(current_user)}
-  end
-
-  def self.in_progress_not_my_turn(current_user)
-    @unplayable_matches = Match.where("(player_x_id = ? OR player_o_id = ?) AND winner_id is NULL", current_user.id, current_user.id)
-    @unplayable_matches = @unplayable_matches.select {|match| !match.drawn?}
-    @unplayable_matches = @unplayable_matches.select {|match| !match.is_my_turn?(current_user)}
-  end
-
   def is_my_turn?(current_user)
     moves.empty? || moves.last.user != current_user
   end
 
   def possible_moves
-    all_squares = [1,2,3,4,5,6,7,8,9]
-    occupied_squares = saved_moves.map {|m| m.square }
-    all_squares - occupied_squares
+    ALL_SQUARES - saved_moves.map {|m| m.square }
   end
 
   def self.new_match_vs_computer(params)
@@ -115,23 +101,18 @@ class Match < ActiveRecord::Base
     match
   end
 
-
-
   def is_draw?
     moves.count == 9 && winner_id == nil
   end
 
-  def drawn?
-    winner_id == 0 
+  def self.playable_matches(current_user)
+    @playable_matches = Match.where("(player_x_id = ? OR player_o_id = ?) AND winner_id is NULL", current_user.id, current_user.id)
+    @playable_matches = @playable_matches.select {|match| match.is_my_turn?(current_user)}
   end
 
-  def must_not_already_have_match
-    m = Match.where(player_o_id: challenger_id, player_x_id: other_player_id, winner_id:nil) 
-    n = Match.where(player_o_id: other_player_id, player_x_id: challenger_id, winner_id:nil)
-    unless m.empty? && n.empty?
-      errors.add(:challenger_id, "you already have a match in progress with this person!")
-    end
+  def self.in_progress_not_my_turn(current_user)
+    @unplayable_matches = Match.where("(player_x_id = ? OR player_o_id = ?) AND winner_id is NULL", current_user.id, current_user.id)
+    @unplayable_matches = @unplayable_matches.select {|match| !match.is_my_turn?(current_user)}
   end
+
 end
-
-
