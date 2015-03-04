@@ -50,7 +50,7 @@ class MatchesController < ApplicationController
     square = params[:square].to_i
     @match = Match.find(params[:id])
     move = @match.add_move(current_user.id,square)
-    @match.computer_move if @match.winner_id.nil? && @match.computer_playing?
+    @match.computer_play if @match.winner_id.nil? && @match.computer_playing?
     @match.check_status
     redirect_to @match
   end

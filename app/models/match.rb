@@ -46,16 +46,46 @@ class Match < ActiveRecord::Base
     player_x.role == "computer" || player_o.role == "computer"
   end
 
+  def computer_play
+    winning_move || blocking_move || computer_move
+  end
+
   def computer_move
     moves.create!(user_id: 26, square: possible_moves.sample, value: x_or_o(26))
   end
 
-  def add_move(user_id, square)
-    moves.create!(user_id: user_id, square: square, value: x_or_o(user_id))
+  def winning_move
+    computers_squares = moves.where(user_id: 26).map {|move| move.square}
+    win_combo = WINNING_COMBOS.select { |combo| (combo - computers_squares).count == 1 }.first
+    if win_combo
+      win_move = win_combo - computers_squares
+    else
+      win_move = 0
+    end
+    if win_combo && possible_moves.include?(win_move)
+      moves.create!(user_id: 26, square: win_move.first, value: x_or_o(26))
+    else 
+      return false
+    end
   end
 
-  def is_there_a_winner?
-    has_player_won?(player_x_id) || has_player_won?(player_o_id)
+  def blocking_move
+    players_squares = moves.where("User_id != 26").map {|move| move.square}
+    win_combo = WINNING_COMBOS.select { |combo| (combo - players_squares).count == 1 }.first
+    if win_combo
+      block_move = win_combo - players_squares
+    else
+      win_move = 0
+    end
+    if win_combo && possible_moves.include?(block_move)
+      moves.create!(user_id: 26, square: block_move.first, value: x_or_o(26))
+    else
+      return false
+    end
+  end
+
+  def add_move(user_id, square)
+    moves.create!(user_id: user_id, square: square, value: x_or_o(user_id))
   end
 
   def has_player_won?(player_id)
@@ -103,6 +133,10 @@ class Match < ActiveRecord::Base
 
   def is_draw?
     moves.count == 9 && winner_id == nil
+  end
+
+  def drawn
+    winner_id == 0
   end
 
   def self.playable_matches(current_user)
