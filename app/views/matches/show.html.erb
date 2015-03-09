@@ -4,10 +4,10 @@
   <div class="grid-element">
     <% if @squares_values[i].nil?  %>
     <% if @playing_as == "X" %>
-    <%= link_to image_tag("whitecross.png", :alt => "Play", :class => "square cross"), add_move_match_path(square: i), method: :put if @match.is_my_turn?(current_user) && !@match.is_there_a_winner? %>
+    <%= link_to image_tag("whitecross.png", :alt => "Play", :class => "square cross"), add_move_match_path(square: i), method: :put if @match.is_my_turn?(current_user) && !@match.winner_id? %>
     <%= image_tag("blanksquare.png", class: "square") if !@match.is_my_turn?(current_user) || @match.winner != nil  %>
     <% else %>
-    <%= link_to image_tag("whitecircle.png", :alt => "Play", :class => "square circle"), add_move_match_path(square: i), method: :put if @match.is_my_turn?(current_user) && !@match.is_there_a_winner? %>
+    <%= link_to image_tag("whitecircle.png", :alt => "Play", :class => "square circle"), add_move_match_path(square: i), method: :put if @match.is_my_turn?(current_user) && !@match.winner_id? %>
     <%= image_tag("blanksquare.png", class: "square") if !@match.is_my_turn?(current_user) || @match.winner != nil  %>
     <% end %>
     <% else %>
