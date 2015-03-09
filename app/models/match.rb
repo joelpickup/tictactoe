@@ -50,12 +50,16 @@ class Match < ActiveRecord::Base
     winning_move || blocking_move || computer_move
   end
 
+  def computer_id
+    User.where(role: "computer").first.id
+  end
+
   def computer_move
-    moves.create!(user_id: 26, square: possible_moves.sample, value: x_or_o(26))
+    moves.create!(user_id: computer_id, square: possible_moves.sample, value: x_or_o(computer_id))
   end
 
   def winning_move
-    computers_squares = moves.where(user_id: 26).map {|move| move.square}
+    computers_squares = moves.where(user_id: computer_id).map {|move| move.square}
     win_combo = WINNING_COMBOS.select { |combo| (combo - computers_squares).count == 1 }.first
     if win_combo
       win_move = win_combo - computers_squares
@@ -63,7 +67,7 @@ class Match < ActiveRecord::Base
       win_move = 0
     end
     if win_combo && possible_moves.include?(win_move)
-      moves.create!(user_id: 26, square: win_move.first, value: x_or_o(26))
+      moves.create!(user_id: computer_id, square: win_move.first, value: x_or_o(computer_id))
     else 
       return false
     end
