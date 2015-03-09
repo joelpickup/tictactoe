@@ -2,4 +2,4 @@
 
 A simple, Tic-Tac-Toe game using Ruby on Rails and Bootstrap. Matches can be played against other users, or against a simple AI.
 
-Play it [here](http://jp-tic-tac-toe.herokuapp.com)
+http://jp-tic-tac-toe.herokuapp.com
